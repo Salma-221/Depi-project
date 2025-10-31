@@ -1,0 +1,86 @@
+Python Cleaning & Validation:-
+
+
+# CLEANING:
+////NULLS\\\\
+
+-Remove Duplicates 31653 --> 31653 
+  df=df.drop_duplicates()
+
+-Remove Null in "Reason for Delay" for "On Time" NULL --> "On Time"
+  df["Reason for Delay"] = df["Reason for Delay"].fillna("On Time")
+
+-Nulls in "Actual Arrival Time" are for cancelled journey
+
+-Replace 
+Nulls --> Not Defined 
+  df["Category"] = df["Category"].fillna("Not Defined")
+
+
+////Working on Columns\\\\
+
+-Changing "Reason for Delay" to Upper case to unify items
+-Unify "WEATHER" with "WEATHER CONDITIONS" 
+-Unify "STAFF SHORTAGE" with "STAFFING" 
+
+
+# VALIDATION
+-Checking for Duplicates in the PK "Transaction ID"
+  df['Transaction ID'][df['Transaction ID'].duplicated()].unique()
+
+-Rename Column:
+Railcard --> Category
+  df=df.rename(columns={"Railcard":"Category"})
+
+-"Payment Method" to uppercase
+  df["Payment Method"]=df["Payment Method"].str.upper()
+-Rename 
+CONTACTLESS --> ONSITE
+  df["Reason for Delay"]=df["Reason for Delay"].replace("CONTACTLESS","ONSITE")
+
+
+To check on unifing:
+
+//Before & After
+
+  weathercnt=(df["Reason for Delay"] == "WEATHER").sum()
+  WEATHER_CONDITIONS=(df["Reason for Delay"] == "WEATHER CONDITIONS").sum()
+  STAFFING=(df["Reason for Delay"] == "STAFFING").sum()
+  STAFF_SHORTAGE=(df["Reason for Delay"] == "STAFF SHORTAGE").sum()
+  print(weathercnt)
+  print(WEATHER_CONDITIONS)
+  print(STAFFING)
+  print(STAFF_SHORTAGE)
+
+
+//Dividing the "Purchase Date" & "Journey Date" --> "Purchase Day","Purchase Month" "Journey Day" , "Journey Month","Journey Year","Purchase Year"
+
+#Validating the column to be in Date format
+ 
+  df['Date of Purchase'] = pd.to_datetime(df['Date of Purchase'], dayfirst=True, errors='coerce') 
+  df['Date of Journey'] = pd.to_datetime(df['Date of Journey'], dayfirst=True, errors='coerce')
+
+#Creating the New columns for (Day - Month - Year) from column ("Purchase Date" & "Journey Date")
+
+  df['Purchase Month'] = df['Date of Purchase'].dt.month_name()
+  df['Purchase year'] = df['Date of Purchase'].dt.strftime('%Y')
+  df['Journey Month'] = df['Date of Journey'].dt.month_name()
+  df['Journey Day'] = df['Date of Journey'].dt.day_name()
+  df['Journey year'] = df['Date of Journey'].dt.strftime('%Y')
+
+#Creating the Journey Duration from difference between "Arrival Datetime" & "Departure Datetime" in (hr)
+
+  df['Departure Datetime'] = pd.to_datetime(df['Date of Journey'].astype(str) + ' ' + df['Departure Time'])
+  df['Arrival Datetime'] = pd.to_datetime(df['Date of Journey'].astype(str) + ' ' + df['Arrival Time'])
+  df['Journey Duration (hr)'] = round((df['Arrival Datetime'] - df['Departure Datetime']).dt.total_seconds()/3600,2)
+  df.head()
+
+
+#Creating the Journey Duration from difference between "Actual Arrival Datetime" & "Arrival Datetime" in (min)
+
+  df['Actual Arrival Datetime'] = pd.to_datetime(df['Date of Journey'].astype(str) + ' ' + df['Actual Arrival Time'])
+  df['Journey Delay (min)'] = (df['Actual Arrival Datetime'] - df['Arrival Datetime']).dt.total_seconds()/60
+
+
+////To download new CSV file as cleaned copy\\\\
+  df.to_csv("TrainRides_Cleaned_Enhanced.csv", index=False)
