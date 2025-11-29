@@ -1,0 +1,36 @@
+Tickets Questions:
+  //4- What are best seller classes & ticket types?
+  //5- Is there relation between days or ticket types and prices?
+  //6- How many tickets sold each year month/day?
+  //7- How many cancelled journeys each month?
+  //8- Relation between cancelation and months ?
+  //9- Average ticket price ?
+ //10- What affect price?
+ //11- Relation between ticket type and delay?
+
+//2 which ticket type is most popular?
+$$3 distribution of ticket prices?(bins)
+//4 Which stations have the highest ticket sales?
+
+//1- What's the total num of tickets sold?
+//3- Most common payment method 
+//4- Online more cheaper than offline, How does payment method related to ticket prices?
+//5- which months show the highest and lowest average ticket revenu?
+//6- How do refund trends change before and after delays
+
+//1.Which customer groups can be identified based on ticket class , purchase type and price
+//3.How has online purchase usage changed over the heirarchy (years , or months or weeks)
+//4.Which months show low ticket sales and need promotional offers & best seller months?
+//5.Which journey day generates the highest revenue (most visited destination)
+
+//1_What is the percentage of online purchases compared to purchases made at the station?
+//2-Is there relation between days or ticket class & the purchase type
+//3_What ticket classes sold more frequently on specific days of the week?
+//4_Are weekend days associated with a higher volume of bookings compared to weekdays & best seller?
+//5_Which purchase year recorded the highest number of ticket sales?
+//7_Does the ticket price vary depending on the month of purchase?
+
+
+
+Forcasting
+>>6.Does a small change in ticket price significantly affect demand
